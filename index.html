@@ -41,6 +41,10 @@
         });
         map.addLayer(tlayer);
         
+        // add the data layer
+        var vizjson = 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/342bea8a-8334-11e5-8841-0ecd1babdde5/viz.json';
+        cartodb.createLayer(map, vizjson).addTo(map);        
+        
       }
       
       window.onload = main;
