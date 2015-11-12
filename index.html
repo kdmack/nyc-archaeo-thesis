@@ -37,16 +37,8 @@
 
       map.addLayer(layer);
       
-      cartodb.createLayer(map, {
-        user_name: 'mapadmin',
-        type: 'cartodb',
-        sublayers: [{
-          sql: "select * from projects",
-          cartocss: '#projects {polygon-opacity: 0.5; line-color: #FFF; line-width: 0.5; line-opacity: 1;} #projects[level="doc"] {polygon-fill: #ffff75;} #projects[level="exc"] {polygon-fill: #ff7575;}',
-          interactivity: "cartodb_id"
-        }]
-      })
-      map.addLayer(layer);
+      cartodb.createLayer(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/342bea8a-8334-11e5-8841-0ecd1babdde5/viz.json')
+        addTo(map)
 
     </script>
 
