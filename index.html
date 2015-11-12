@@ -23,13 +23,19 @@
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
     
+    <!-- load the positron basemap-->
     <script>
-    
-      function main(){
-        cartodb.createVis('map', 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/342bea8a-8334-11e5-8841-0ecd1babdde5/viz.json')
-      }
-      
-      window.onload = main;
+      var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+      });
+
+      var map = L.map('map', {
+        scrollWheelZoom: true,
+        center: [40.711860, -74.007690],
+        zoom: 16
+      });
+
+      map.addLayer(layer);
 
     </script>
 
