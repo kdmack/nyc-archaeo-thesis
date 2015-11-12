@@ -41,9 +41,9 @@
         user_name: 'mapadmin',
         type: 'cartodb',
         sublayers: [{
-          sql: "select mapadmin.reports.author, mapadmin.reports.date_, mapadmin.reports.title, mapadmin.projects.the_geom_webmercator, mapadmin.projects.level, mapadmin.reports.cartodb_id, mapadmin.reports.biblioid, mapadmin.reports.project_unique_id from mapadmin.reports, mapadmin.projects where mapadmin.reports.project_unique_id = mapadmin.projects.puid order by mapadmin.projects.level",
+          sql: "select * from projects",
           cartocss: '#projects {polygon-opacity: 0.5; line-color: #FFF; line-width: 0.5; line-opacity: 1;} #projects[level="doc"] {polygon-fill: #ffff75;} #projects[level="exc"] {polygon-fill: #ff7575;}',
-          interactivity: "reports.cartodb_id, projects.puid, reports.author, reports.date_, reports.title, reports.url_report"
+          interactivity: "cartodb_id"
         }]
       })
       .addTo(map);
