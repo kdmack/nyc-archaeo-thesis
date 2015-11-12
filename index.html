@@ -39,9 +39,9 @@
       
       cartodb.createLayer(map, {
         user_name: 'mapadmin',
-        type: 'namedmap',
+        type: 'cartodb',
         sublayers: [{
-          sql: "select * from mapadmin.projects",
+          sql: "select * from projects",
           cartocss: '#projects {polygon-opacity: 0.5; line-color: #FFF; line-width: 0.5; line-opacity: 1;} #projects[level="doc"] {polygon-fill: #ffff75;} #projects[level="exc"] {polygon-fill: #ff7575;}',
           interactivity: "cartodb_id"
         }]
