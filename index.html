@@ -38,7 +38,7 @@
       map.addLayer(layer);
       
       cartodb.createLayer(map, {
-        user_name: 'mapadmin',
+        user_name: 'akrf.mapadmin',
         type: 'cartodb',
         sublayers: [{
           sql: "select mapadmin.reports.author, mapadmin.reports.date_, mapadmin.reports.title, mapadmin.projects.the_geom_webmercator, mapadmin.projects.level, mapadmin.reports.cartodb_id, mapadmin.reports.biblioid, mapadmin.reports.project_unique_id from mapadmin.reports, mapadmin.projects where mapadmin.reports.project_unique_id = mapadmin.projects.puid order by mapadmin.projects.level",
