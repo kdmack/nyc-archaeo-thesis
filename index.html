@@ -25,20 +25,24 @@
     
     <!-- load the positron basemap-->
     <script>
-      var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-      });
-
-      var map = L.map('map', {
-        scrollWheelZoom: true,
-        center: [40.711860, -74.007690],
-        zoom: 16
-      });
-
-      map.addLayer(layer);
+    
+      function main(){
+        
+        var map = L.map('map', {
+          scrollWheelZoom: true,
+          center: [40.711738, -74.007872],
+          zoom: 16
+        });
+        
+        var tlayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+        });
+        
+        map.addLayer(tlayer);
+        
+      }
       
-      cartodb.createLayer(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/342bea8a-8334-11e5-8841-0ecd1babdde5/viz.json')
-        addTo(map)
+      window.onload = main;
 
     </script>
 
