@@ -41,7 +41,7 @@
         user_name: 'mapadmin',
         type: 'cartodb',
         sublayers: [{
-          sql: "select * from projects",
+          sql: "select * from mapadmin.projects",
           cartocss: '#projects {polygon-opacity: 0.5; line-color: #FFF; line-width: 0.5; line-opacity: 1;} #projects[level="doc"] {polygon-fill: #ffff75;} #projects[level="exc"] {polygon-fill: #ff7575;}',
           interactivity: "cartodb_id"
         }]
