@@ -31,6 +31,7 @@
         .done(function(vis, layers) {
           projlayer = layers[1].getSubLayer(0);
           
+          projelayer.setInteraction(true);
           projlayer.on('featureOver', function(e, latlng, pos, data, layerNumber) {
             console.log(e, latlng, pos, data, layerNumber);
           })
