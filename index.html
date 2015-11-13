@@ -28,14 +28,6 @@
     
      function main(){
         cartodb.createVis(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/1a94aad0-8a37-11e5-80e4-0ea31932ec1d/viz.json')
-        .done(function(vis, layers) {
-          projlayer = layers[1].getSubLayer(0);
-          
-          projlayer.on('featureOver', function(e, latlng, pos, data, layerNumber) {
-            console.log(data);
-            alert(data.date_ + ", " + data.title)
-          })
-        })
       }
       
       window.onload = main;
