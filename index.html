@@ -33,7 +33,8 @@
           
           projelayer.setInteraction(true);
           projlayer.on('featureOver', function(e, latlng, pos, data, layerNumber) {
-            console.log(e, latlng, pos, data, layerNumber);
+            console.log(data);
+            alert(data.date_ + ", " + data.title)
           })
         })
       }
