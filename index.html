@@ -35,7 +35,7 @@
             var sublayer = layers[1].getSubLayer(0);
             sublayer.setInteractivity("cartodb_id", "name", "url_thumb", "date_", "title", "author")
             sublayer.on('featureover', function(e, latlng, pos, data, subLayerIndex) {
-              console.log(data.name + " and " data.title);
+              console.log(data.name + " and " + data.title);
             })
 
         })
