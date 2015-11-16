@@ -33,7 +33,7 @@
             console.log("Layers has " + layers.length + " layers.");
             layers[1].setInteraction(true)
             var sublayer = layers[1].getSubLayer(0);
-            sublayer.setInteractivity("projects.cartodb_id", "projects.name", "reports.url_thumb", "reports.date_", "reports.title", "reports.author")
+            sublayer.setInteractivity("cartodb_id", "name", "url_thumb", "date_", "title", "author")
             sublayer.on('featureover', function(e, latlng, pos, data) {
               console.log(e, latlng, pos, data)
             })
