@@ -30,7 +30,6 @@
         
         cartodb.createVis(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/1a94aad0-8a37-11e5-80e4-0ea31932ec1d/viz.json')
           .done(function(vis, layers) {
-            layers(1).setInteraction(true);
             var sublayer = layers(1).getSubLayer(0);
             sublayer.setInteractivity("cartodb_id", "name", "url_thumb", "date_", "title", "author")
             sublayer.on('featureover', function(e, latlng, pos, data) {
