@@ -26,10 +26,31 @@
     <!-- load the positron basemap-->
     <script>
     
-     function main(){
-        cartodb.createVis(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/1a94aad0-8a37-11e5-80e4-0ea31932ec1d/viz.json')
+      function main(){
+        
+        // create the Leaflet map object and some options
+        var map = L.map('map', {
+          scrollWheelZoom: true,
+          center: [40.711738, -74.007872],
+          zoom: 16
+        });
+        
+        // add the cartodb positron basemap
+        var tlayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+        });
+        map.addLayer(tlayer);
+        
+        // add the data layer
+        var vizjson = 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/1a94aad0-8a37-11e5-80e4-0ea31932ec1d/viz.json';
+        cartodb.createLayer(map, vizjson).addTo(map);
+        
+        var tlabellayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+        });
+        map.addLayer(tlabellayer);
+        
       }
-      
       window.onload = main;
 
     </script>
