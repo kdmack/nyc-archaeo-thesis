@@ -67,14 +67,14 @@
           projLayer.setInteraction(true);
           
           layer.on('featureOver', function(e, latlng, pos, data) {
-            cartodb.log.log(e, latlng, pos, data);
+            console.log(e, latlng, pos, data);
           });
 
           layer.on('error', function(err) {
-            cartodb.log.log('error: ' + err);
+            console.log('error: ' + err);
           });
         }).on('error', function() {
-          cartodb.log.log("some error occurred");
+          console.log("some error occurred");
         })
         
         // ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
