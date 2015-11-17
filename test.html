@@ -64,8 +64,10 @@
         }).addTo(map)
         .on('done', function(layer) {
           console.log("about to set interaction");
-          layer.setInteraction(true);
-          layer.on('featureOver', function(e, latlng, pos, data) {
+          var projLayer = layer.getSubLayer(0);
+          projLayer.setInteraction(true);
+          projLayer.setInteractivity("cartodb_id, puid")
+          projLayer.on('featureOver', function(e, latlng, pos, data) {
             console.log(e, latlng, pos, data);
           });
 
