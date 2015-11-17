@@ -15,6 +15,22 @@
         margin: 0;
       }
     </style>
+    
+    <style type="cartocss/text" id="projbylevel">
+      /** category visualization */
+      #projects {
+         polygon-opacity: 0.6;
+         line-color: #FFF;
+         line-width: 0.5;
+         line-opacity: 1;
+      }
+      #projects[level="doc"] {
+         polygon-fill: #ffff75;
+      }
+      #projects[level="exc"] {
+         polygon-fill: #ff7575;
+      }
+    </style>
 
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
   </head>
@@ -37,19 +53,15 @@
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(map);
         
-        cartodb.createLayer(map, 'http://documentation.cartodb.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json')
-            .addTo(map)
-         .on('done', function(layer) {
-          layer.setInteraction(true);
-          layer.on('featureOver', function(e, latlng, pos, data) {
-            cartodb.log.log(e, latlng, pos, data);
-          });
-          layer.on('error', function(err) {
-            cartodb.log.log('error: ' + err);
-          });
-        }).on('error', function() {
-          cartodb.log.log("some error occurred");
-        });
+        cartodb.createLayer(map, {
+          user_name: 'mapadmin',
+          type: 'cartodb',
+          sublayers: [{
+            sql: 'select * from projects',
+            cartocss: $("#projbylevel").text()
+          }]
+        })
+
       }
       // you could use $(window).load(main);
       window.onload = main;
