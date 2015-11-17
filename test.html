@@ -46,8 +46,7 @@
         var map = new L.Map('map', {
           scrollWheelZoom: true,
           center: [40.711738, -74.007872],
-          zoom: 16,
-          maxzoom: 18
+          zoom: 16
         });
         
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
@@ -69,6 +68,8 @@
         .addTo(map);
         topPane.appendChild(topLayer.getContainer());
         topLayer.setZIndex(7);
+        
+        map.options.maxzoom=10;
 
       }
       // you could use $(window).load(main);
