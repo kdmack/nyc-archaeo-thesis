@@ -31,10 +31,10 @@
         cartodb.createVis(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/32a7b0d2-8cac-11e5-b034-0e674067d321/viz.json')
           .done(function(vis, layers) {
             console.log("Layers has " + layers.length + " layers.");
-            layers[1].setInteraction(true)
-            //var sublayer = layers[1].getSubLayer(0);
+            var sublayer = layers[1].getSubLayer(0);
+            sublayer.setInteraction(true)
             //layers[1].setInteractivity("cartodb_id, name")
-            layers[1].on('featureover', function(e, latlng, pos, data, subLayerIndex) {
+            sublayer.on('featureover', function(e, latlng, pos, data, layerIndex) {
               //var sql = new cartodb.sql({ user: 'mapadmin'});
               //var hoverquery = "SELECT url_thumb, date_, title, author FROM projects_reports WHERE "
               console.log(data);
