@@ -39,8 +39,11 @@
               //var hoverquery = "SELECT url_thumb, date_, title, author FROM projects_reports WHERE "
               console.log(data);
             })
-
-        })
+          })
+          
+          .error(function(err) {
+            console.log("Some error occurred " + err);
+          }
       }
       window.onload = main;
 
