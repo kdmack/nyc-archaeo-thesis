@@ -63,6 +63,7 @@
           }]
         }).addTo(map)
         .on('done', function(layer) {
+          console.log("about to set interaction");
           layer.setInteraction(true);
           layer.on('featureOver', function(e, latlng, pos, data) {
             console.log(e, latlng, pos, data);
