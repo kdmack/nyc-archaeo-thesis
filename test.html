@@ -65,13 +65,17 @@
         .done(function(layer) {
           var projLayer = layer.getSubLayer(0);
           projLayer.setInteraction(true);
-          cartodb.vis.vis.addCursorInteraction(map, projLayer);
-          layer.on('featureover', featureover);
+          
+          layer.on('featureOver', function(e, latlng, pos, data) {
+            cartodb.log.log(e, latlng, pos, data);
+          });
+
+          layer.on('error', function(err) {
+            cartodb.log.log('error: ' + err);
+          });
+        }).on('error', function() {
+          cartodb.log.log("some error occurred");
         })
-        
-        function featureOver(e, latlng, pos, data) {
-          console.log(data.cartodb_id)
-        }
         
         // ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
         var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
