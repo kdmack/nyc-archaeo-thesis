@@ -33,7 +33,7 @@
             console.log("Layers has " + layers.length + " layers.");
             var sublayer = layers[1].getSubLayer(0);
             sublayer.setInteraction(true)
-            //layers[1].setInteractivity("cartodb_id, name")
+            sublayer.setInteractivity("cartodb_id, name")
             sublayer.on('featureover', function(e, latlng, pos, data, layerIndex) {
               //var sql = new cartodb.sql({ user: 'mapadmin'});
               //var hoverquery = "SELECT url_thumb, date_, title, author FROM projects_reports WHERE "
