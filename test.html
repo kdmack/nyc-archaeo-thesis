@@ -62,7 +62,7 @@
             cartocss: $("#projbylevel").text()
           }]
         }).addTo(map)
-        .on('done', function(layer) {
+        .done(function(layer) {
           var projLayer = layer.getSubLayer(0);
           projLayer.setInteraction(true);
           cartodb.vis.vis.addCursorInteraction(map, projLayer);
