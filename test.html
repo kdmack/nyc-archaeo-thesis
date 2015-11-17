@@ -64,7 +64,7 @@
         
         // ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
         var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
-        var topLayer = new L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png'
+        var topLayer = new L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png')
         .addTo(map);
         topPane.appendChild(topLayer.getContainer());
         topLayer.setZIndex(7);
