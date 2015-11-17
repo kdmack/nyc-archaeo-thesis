@@ -61,7 +61,17 @@
             sql: 'select * from projects order by level',
             cartocss: $("#projbylevel").text()
           }]
-        }).addTo(map);
+        }).addTo(map)
+        .on('done', function(layer) {
+          var projLayer = layer.getSubLayer(0);
+          projLayer.setInteraction(true);
+          cdb.vis.vis.addCursorInteraction(map, projLayer);
+          layer.on('featureover', featureover);
+        })
+        
+        function featureOver(e, latlng, pos, data) {
+          console.log(data.cartodb_id)
+        }
         
         // ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
         var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
@@ -69,8 +79,6 @@
         .addTo(map);
         topPane.appendChild(topLayer.getContainer());
         topLayer.setZIndex(7);
-        
-        map.options.maxzoom=10;
 
       }
       // you could use $(window).load(main);
