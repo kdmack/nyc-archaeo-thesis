@@ -65,7 +65,7 @@
         .on('done', function(layer) {
           var projLayer = layer.getSubLayer(0);
           projLayer.setInteraction(true);
-          cdb.vis.vis.addCursorInteraction(map, projLayer);
+          cartodb.vis.vis.addCursorInteraction(map, projLayer);
           layer.on('featureover', featureover);
         })
         
