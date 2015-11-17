@@ -62,10 +62,8 @@
             cartocss: $("#projbylevel").text()
           }]
         }).addTo(map)
-        .done(function(layer) {
-          var projLayer = layer.getSubLayer(0);
-          projLayer.setInteraction(true);
-
+        .on('done', function(layer) {
+          layer.setInteraction(true);
           layer.on('featureOver', function(e, latlng, pos, data) {
             console.log(e, latlng, pos, data);
           });
