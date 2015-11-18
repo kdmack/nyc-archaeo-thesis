@@ -16,6 +16,7 @@
       }
     </style>
     
+    <!-- cartocss style for projects symbology-- categories based on level field -->
     <style type="cartocss/text" id="projbylevel">
       /** category visualization */
       #projects {
@@ -34,6 +35,7 @@
 
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
   </head>
+  
   <body>
     <div id="map"></div>
 
@@ -41,8 +43,27 @@
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
     
     <script>
+    
+      //utility function to add cursor interaction, called in main function below
+      function addCursorInteraction(layer) {
+        var hovers = [];
+        layer.bind('featureOver', function(e, latlon, pxPos, data, layer) {
+          hovers[layer] = 1;
+          if(_.any(hovers)) {
+            $('#map').css('cursor', 'pointer');
+          }
+        });
+        layer.bind('featureOut', function(m, layer) {
+          hovers[layer] = 0;
+          if(!_.any(hovers)) {
+            $('#map').css('cursor', 'auto');
+          }
+        });
+      }
+    
       function main() {
         
+        //create the empty leaflet map object and set some options including location and zoom level
         var map = new L.Map('map', {
           scrollWheelZoom: true,
           center: [40.711738, -74.007872],
@@ -50,10 +71,12 @@
           zoom: 16
         });
         
+        //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(map);
         
+        //create and add the cartodb data layer on the fly
         cartodb.createLayer(map, {
           user_name: 'mapadmin',
           type: 'cartodb',
@@ -62,14 +85,17 @@
             cartocss: $("#projbylevel").text()
           }]
         }).addTo(map)
+        
+        // 'on done' is triggered once layer is created-- passes back layer object
         .on('done', function(layer) {
-          console.log("about to set interaction");
+          //triggers a function to set interactivity on the projects layer
           var projLayer = layer.getSubLayer(0);
           projLayer.setInteraction(true);
           projLayer.setInteractivity("cartodb_id, puid")
           projLayer.on('featureOver', function(e, latlng, pos, data) {
             console.log(e, latlng, pos, data);
           });
+          addCursorInteraction(projLayer);
 
           layer.on('error', function(err) {
             console.log('error: ' + err);
