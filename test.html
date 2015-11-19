@@ -71,6 +71,8 @@
           zoom: 16
         });
         
+        var polygons = {}; //placeholder variable for highlight-on-hover function below
+        
         //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
@@ -118,6 +120,7 @@
         topPane.appendChild(topLayer.getContainer());
         topLayer.setZIndex(7);
         
+        //utility function to highlight polygons when cursor hovers over them, called in main function
         function geometryHover(username, map, layer, options) {
           options = options || {}
           var HIGHLIGHT_STYLE = {
