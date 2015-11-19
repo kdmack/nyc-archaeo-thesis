@@ -153,6 +153,7 @@
             for(var i = 0; i < pol.length; ++i) {
               map.addLayer(pol[i]);
               polygonsHighlighted.push(pol[i]);
+              console.log(i);
             }
           }
           function featureOut() {
@@ -164,7 +165,7 @@
           }
           layer.on('featureOver', featureOver);
           layer.on('featureOut', featureOut);
-          layer.setInteraction(true);
+          //layer.setInteraction(true);
         }
 
       }
