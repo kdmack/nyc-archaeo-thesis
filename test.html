@@ -93,12 +93,12 @@
           projLayer.setInteraction(true);
           projLayer.setInteractivity("cartodb_id, puid")
           projLayer.on('featureOver', function(e, latlng, pos, data) {
-            console.log(e, latlng, pos, data);
+            //console.log(e, latlng, pos, data);
             var sql_hover = new cartodb.SQL({user: 'mapadmin'});
             var query_hover = "SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))";
             sql_hover.execute(query_hover)
               .done(function (data) {
-                console.log(data);
+                console.log(data.puid);
               })
           });
           addCursorInteraction(projLayer);
