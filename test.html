@@ -70,9 +70,7 @@
           maxZoom: 18,
           zoom: 16
         });
-        
-        var polygons = {}; //placeholder variable for highlight-on-hover function below
-        
+
         //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
@@ -104,7 +102,6 @@
               })
           });
           addCursorInteraction(projLayer);
-          geometryHover('mapadmin', map, projLayer);
 
           layer.on('error', function(err) {
             console.log('error: ' + err);
@@ -120,54 +117,6 @@
         topPane.appendChild(topLayer.getContainer());
         topLayer.setZIndex(7);
         
-        //utility function to highlight polygons when cursor hovers over them, called in main function
-        function geometryHover(username, map, layer, options) {
-          options = options || {}
-          var HIGHLIGHT_STYLE = {
-            weight: 3,
-            color: '#FFFFFF',
-            opacity: 1,
-            fillColor: '#FFFFFF',
-            fillOpacity: 0.3
-          };
-          style = options.style || HIGHLIGHT_STYLE;
-          var polygonsHighlighted = [];
-          // fetch the geometry
-          var sql_hilight = new cartodb.SQL({ user: username, format: 'geojson' });
-          sql_hilight.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
-            var features = geojson.features;
-            for(var i = 0; i < features.length; ++i) {
-              var f = geojson.features[i];
-              var key = f.properties.cartodb_id
-              // generate geometry
-              var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
-              geo.setStyle(style);
-              // add to polygons
-              polygons[key] = polygons[key] ||  [];
-              polygons[key].push(geo);
-            }
-          });
-          function featureOver(e, latlng, pos, data) {
-            featureOut();
-            var pol = polygons[data.cartodb_id] || [];
-            for(var i = 0; i < pol.length; ++i) {
-              map.addLayer(pol[i]);
-              polygonsHighlighted.push(pol[i]);
-              console.log(i);
-            }
-          }
-          function featureOut() {
-            var pol = polygonsHighlighted;
-            for(var i = 0; i < pol.length; ++i) {
-              map.removeLayer(pol[i]);
-            }
-            polygonsHighlighted = [];
-          }
-          layer.on('featureOver', featureOver);
-          layer.on('featureOut', featureOut);
-          //layer.setInteraction(true);
-        }
-
       }
       // you could use $(window).load(main);
       window.onload = main;
