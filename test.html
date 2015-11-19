@@ -98,7 +98,7 @@
             var query_hover = "SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))";
             sql_hover.execute(query_hover)
               .done(function (data) {
-                console.log(data.puid);
+                console.log(data);
               })
           });
           addCursorInteraction(projLayer);
