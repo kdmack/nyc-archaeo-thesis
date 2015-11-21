@@ -115,9 +115,9 @@
               .done(function (data) {
                 $("#hover").css({'display': 'block', 'left':pos.x-75,'bottom':($(window).height()-pos.y+25)});
                 if (data.total_rows <= 1){
-                  $("#hover").find('h3').text(data.total_rows + " Report");
+                  $("#hover").find('p').text(data.total_rows + " Report");
                 } else {
-                  $("#hover").find('h3').text(data.total_rows + " Reports");
+                  $("#hover").find('p').text(data.total_rows + " Reports");
                 }
               })
           });
