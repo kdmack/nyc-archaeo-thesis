@@ -55,7 +55,7 @@
           zoom: 16
         });
         
-        var polygons = {};        
+        var polygons = {};     
 
         //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
@@ -75,13 +75,15 @@
         // once loaded, 
         .on('done', function(layer) {
           
-          var highlightStyle = {
-            weight: 1,
+          options = options || {}
+          var HIGHLIGHT_STYLE = {
+            weight: 3,
             color: '#FFFFFF',
             opacity: 1,
             fillColor: '#FFFFFF',
-            fillOpacity: 0.2
+            fillOpacity: 0.3
           };
+          style = options.style || HIGHLIGHT_STYLE;
           
           var polygonsHighlighted = [];
           
@@ -95,11 +97,11 @@
               var key = f.properties.cartodb_id
               // generate geometry
               var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
-              geo.setStyle(highlightStyle);
+              geo.setStyle(style);
               // add to polygons
               polygons[key] = polygons[key] ||  [];
               polygons[key].push(geo);
-              map.addLayer(geo);
+              //map.addLayer(geo);
               //console.log(polygons)
               //console.log(i);
             }
