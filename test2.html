@@ -125,6 +125,7 @@
           projLayer.on('featureOver', featureOver);
           projLayer.on('featureOut', featureOut);
           projLayer.setInteraction(true);
+          projLayer.setInteractivity("cartodb_id, the_geom, puid")
           
         })
         
