@@ -54,6 +54,8 @@
           maxZoom: 18,
           zoom: 16
         });
+        
+        var polygons = {};
 
         //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
@@ -81,7 +83,6 @@
             fillOpacity: 0.2
           };
           
-          var polygons = {};
           var polygonsHighlighted = [];
           
           // fetch the geometry
