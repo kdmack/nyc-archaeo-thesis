@@ -88,6 +88,7 @@
           layer.on('featureOver', featureOver);
           layer.on('featureOut', featureOut);
           layer.setInteraction(true);
+          layer.setInteractivity("cartodb_id, the_geom");
 
         }
 
