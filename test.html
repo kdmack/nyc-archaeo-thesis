@@ -58,23 +58,6 @@
     
     <script>
     
-      //utility function to add cursor interaction, called in main function below
-      function addCursorInteraction(layer) {
-        var hovers = [];
-        layer.bind('featureOver', function(e, latlon, pxPos, data, layer) {
-          hovers[layer] = 1;
-          if(_.any(hovers)) {
-            $('#map').css('cursor', 'pointer');
-          }
-        });
-        layer.bind('featureOut', function(m, layer) {
-          hovers[layer] = 0;
-          if(!_.any(hovers)) {
-            $('#map').css('cursor', 'auto');
-          }
-        });
-      }
-    
       function main() {
         
         //create the empty leaflet map object and set some options including location and zoom level
@@ -125,7 +108,6 @@
             $("#hover").css({'display':'none'});
             $('#map').css('cursor', 'auto');
           })
-          //addCursorInteraction(projLayer);
 
           layer.on('error', function(err) {
             console.log('error: ' + err);
