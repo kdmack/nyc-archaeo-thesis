@@ -55,7 +55,7 @@
           zoom: 16
         });
         
-        var polygons = [];        
+        var polygons = {};        
 
         //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
@@ -89,6 +89,7 @@
           var sql_1 = new cartodb.SQL({ user: 'mapadmin', format: 'geojson' });
           sql_1.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from projects as _wrap").done(function(geojson) {
             var features = geojson.features;
+            console.log(features.length + " features")
             for(var i = 0; i < features.length; ++i) {
               var f = geojson.features[i];
               var key = f.properties.cartodb_id
@@ -98,17 +99,18 @@
               // add to polygons
               polygons[key] = polygons[key] ||  [];
               polygons[key].push(geo);
-              console.log(i);
+              //console.log(i);
             }
           });
-          // now polygons has all the simplified geometries and cartodb_ids
+          // now polygons object has all the pairs of ids and features
           
           function featureOver(e, pos, latlng, data) {
             featureOut();
-            console.log(data.puid);
+            //console.log(data.puid);
             var pol = polygons[data.cartodb_id] || [];
             for(var i = 0; i < pol.length; ++i) {
-              map.addLayer(pol[i]);
+              map.addLayer(geo);
+              //map.addLayer(pol[i]);
               console.log("layer " + i + " added");
               polygonsHighlighted.push(pol[i]);
             }
@@ -116,7 +118,8 @@
           function featureOut() {
             var pol = polygonsHighlighted;
             for(var i = 0; i < pol.length; ++i) {
-              map.removeLayer(pol[i]);
+              map.removeLayer(geo);
+              //map.removeLayer(pol[i]);
               console.log("layer " + i + " removed");
             }
             polygonsHighlighted = [];
