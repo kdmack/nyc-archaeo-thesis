@@ -23,9 +23,10 @@
     <script>
       function main() {
         var map = new L.Map('map', {
-          zoomControl: false,
-          center: [43, 0],
-          zoom: 3
+          scrollWheelZoom: true,
+          center: [40.711738, -74.007872],
+          maxZoom: 18,
+          zoom: 16
         });
 
         var polygons = {};
@@ -51,7 +52,7 @@
 
           // fetch the geometry
           var sql = new cartodb.SQL({ user: username, format: 'geojson' });
-          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from (" + layer.getQuery() + ") as _wrap").done(function(geojson) {
+          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
             var features = geojson.features;
             for(var i = 0; i < features.length; ++i) {
               var f = geojson.features[i];
