@@ -52,7 +52,7 @@
 
           // fetch the geometry
           var sql = new cartodb.SQL({ user: username, format: 'geojson' });
-          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from projects").done(function(geojson) {
+          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
             var features = geojson.features;
             console.log(features.length)
             for(var i = 0; i < features.length; ++i) {
@@ -72,16 +72,16 @@
           function featureOver(e, latlng, pos, data) {
             featureOut();
             var pol = polygons[data.cartodb_id] || [];
-            console.log(pol)
+            alert(pol.length)
             for(var i = 0; i < pol.length; ++i) {
               map.addLayer(pol[i]);
+              alert("after adding pol " + i)
               polygonsHighlighted.push(pol[i]);
             }
           }
 
           function featureOut() {
             var pol = polygonsHighlighted;
-            console.log(pol)
             for(var i = 0; i < pol.length; ++i) {
               map.removeLayer(pol[i]);
             }
