@@ -103,9 +103,10 @@
           // now polygons has all the simplified geometries and cartodb_ids
           
           // this is still in the onDone event handler of the projects layer
-          layer.on('featureOver', featureOver);
-          layer.on('featureOut', featureOut);
-          layer.setInteraction(true);
+          var projLayer = layer.getSubLayer(0);
+          projLayer.on('featureOver', featureOver);
+          projLayer.on('featureOut', featureOut);
+          projLayer.setInteraction(true);
           
           function featureOver(e, pos, latlng, data) {
             featureOut();
