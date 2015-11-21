@@ -50,7 +50,7 @@
     <div id="map"></div>
     
     <div id="hover">
-      <h4>testing testing 123</h4>
+      <h3>testing testing 123</h3>
     </div>
 
     <!-- include cartodb.js library -->
@@ -108,19 +108,24 @@
           projLayer.setInteractivity("cartodb_id, puid")
           projLayer.on('featureOver', function(e, latlng, pos, data) {
             //console.log(e, latlng, pos, data);
+            $('#map').css('cursor', 'pointer');
             var sql_hover = new cartodb.SQL({user: 'mapadmin'});
             var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable)";
             sql_hover.execute(query_hover)
               .done(function (data) {
-                $("#hover").css({'display': 'block', 'left':pos.x-50,'bottom':($(window).height()-pos.y+20)});
-                $("#hover").find('h4').text(data.total_rows + " Reports");
-                //console.log(data.total_rows);
+                $("#hover").css({'display': 'block', 'left':pos.x-75,'bottom':($(window).height()-pos.y+25)});
+                if (data.total_rows <= 1){
+                  $("#hover").find('h3').text(data.total_rows + " Report");
+                } else {
+                  $("#hover").find('h3').text(data.total_rows + " Reports");
+                }
               })
           });
           projLayer.on('featureOut', function(e, latlng, pos, data){
             $("#hover").css({'display':'none'});
+            $('#map').css('cursor', 'auto');
           })
-          addCursorInteraction(projLayer);
+          //addCursorInteraction(projLayer);
 
           layer.on('error', function(err) {
             console.log('error: ' + err);
