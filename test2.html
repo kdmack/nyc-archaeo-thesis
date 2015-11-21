@@ -87,7 +87,7 @@
           
           // fetch the geometry
           var sql_1 = new cartodb.SQL({ user: 'mapadmin', format: 'geojson' });
-          sql_1.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from (" + layer.getSubLayer(0).getSQL() + ") as _wrap").done(function(geojson) {
+          sql_1.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from projects as _wrap").done(function(geojson) {
             var features = geojson.features;
             for(var i = 0; i < features.length; ++i) {
               var f = geojson.features[i];
