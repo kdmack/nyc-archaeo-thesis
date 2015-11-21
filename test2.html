@@ -99,7 +99,8 @@
               // add to polygons
               polygons[key] = polygons[key] ||  [];
               polygons[key].push(geo);
-              console.log(polygons)
+              map.addLayer(geo);
+              //console.log(polygons)
               //console.log(i);
             }
           });
