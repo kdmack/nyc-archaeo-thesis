@@ -92,10 +92,10 @@
 
 
 
-        cartodb.createLayer(map, 'http://documentation.cartodb.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json')
+        cartodb.createLayer(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/32a7b0d2-8cac-11e5-b034-0e674067d321/viz.json')
          .addTo(map)
          .on('done', function(layer) {
-           geometryHover('documentation', map, layer.getSubLayer(0));
+           geometryHover('mapadmin', map, layer.getSubLayer(0));
         }).on('error', function() {
           cartodb.log.log("some error occurred");
         });
