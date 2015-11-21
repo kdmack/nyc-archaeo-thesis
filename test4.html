@@ -93,7 +93,7 @@
 
 
 
-        cartodb.createLayer(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/32a7b0d2-8cac-11e5-b034-0e674067d321/viz.json')
+        cartodb.createLayer(map, 'http://akrf.cartodb.com/u/mapadmin/api/v2/viz/32a7b0d2-8cac-11e5-b034-0e674067d321/viz.json')
          .addTo(map)
          .on('done', function(layer) {
            geometryHover('mapadmin', map, layer.getSubLayer(0));
