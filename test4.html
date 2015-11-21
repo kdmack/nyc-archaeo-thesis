@@ -52,7 +52,7 @@
 
           // fetch the geometry
           var sql = new cartodb.SQL({ user: username, format: 'geojson' });
-          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from mnmappluto as _wrap").done(function(geojson) {
+          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
             var features = geojson.features;
             for(var i = 0; i < features.length; ++i) {
               var f = geojson.features[i];
@@ -88,13 +88,12 @@
           layer.on('featureOver', featureOver);
           layer.on('featureOut', featureOut);
           layer.setInteraction(true);
-          layer.setInteractivity("cartodb_id, the_geom");
 
         }
 
 
 
-        cartodb.createLayer(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/f128b2a0-90a2-11e5-83de-0ea31932ec1d/viz.json')
+        cartodb.createLayer(map, 'https://akrf.cartodb.com/u/mapadmin/api/v2/viz/10004096-90a6-11e5-93da-0ecd1babdde5/viz.json')
          .addTo(map)
          .on('done', function(layer) {
            geometryHover('mapadmin', map, layer.getSubLayer(0));
