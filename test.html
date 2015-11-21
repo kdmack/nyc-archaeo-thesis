@@ -31,6 +31,26 @@
       #projects[level="exc"] {
          polygon-fill: #ff7575;
       }
+      
+      /** this is the tooltip style */
+      #hover {
+        background: #000000;
+        opacity: 0.5;
+        /*width: 150px;*/
+        position: absolute;
+        padding: 5px;
+        color: #ffffff;
+      }
+      .arrow-down {
+        height: 0; 
+        width: 0; 
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #333;
+        position: relative;
+        bottom: -15px;
+        right: -60px;
+      }
     </style>
 
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
@@ -38,6 +58,11 @@
   
   <body>
     <div id="map"></div>
+    
+    <div id="hover">
+      <h4>testing testing 123</h4>
+      <div class="arrow-down"></div>
+    </div>
 
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
@@ -98,9 +123,14 @@
             var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable)";
             sql_hover.execute(query_hover)
               .done(function (data) {
-                console.log(data.total_rows);
+                $("#hover").css({'display':'block','left':pos.x-75,'bottom':($(window).height()-pos.y+20)});
+                $("#hover").find('h4').text(data.total_rows + " Reports");
+                //console.log(data.total_rows);
               })
           });
+          projLayer.on('featureOut', function(){
+            $("#hover").css({'display':'none'});
+          })
           addCursorInteraction(projLayer);
 
           layer.on('error', function(err) {
