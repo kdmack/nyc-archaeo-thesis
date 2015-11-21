@@ -72,7 +72,15 @@
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(map);
         
-        var hovlayer = []
+        var hovlayer = {};
+        
+        var hvrStyle = {
+          weight: 1,
+          color: '#ffffff',
+          opacity: 1,
+          fillColor: '#ffffff',
+          fillOpacity: 0.2
+        };
         
         //create and add the cartodb data layer on the fly
         cartodb.createLayer(map, {
@@ -101,7 +109,7 @@
                 var hoverfeat = geojson.features;
                 for (var i = 0; i < hoverfeat.length; ++i) {
                   hovlayer = L.GeoJSON.geometryToLayer(hoverfeat[i].geometry); //come on
-                  hovlayer.SetStyle({'weight':1, 'color':'#ffffff', 'opacity':1, 'fillColor':'#ffffff', 'fillOpacity': 0.2});
+                  hovlayer.SetStyle(hvrStyle);
                 }
                 map.addLayer(hovlayer);
                 //$("#hover").css({'display': 'block', 'left':pos.x-75,'bottom':($(window).height()-pos.y+25)});
