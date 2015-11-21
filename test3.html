@@ -73,12 +73,13 @@
         }).addTo(map);
         
         var hovlayer = {};
+        var polygonsHighlighted = [];
         
         var hvrStyle = {
           weight: 1,
-          color: '#ffffff',
+          color: #FFF,
           opacity: 1,
-          fillColor: '#ffffff',
+          fillColor: #FFF,
           fillOpacity: 0.2
         };
         
@@ -102,16 +103,26 @@
             //console.log(e, latlng, pos, data);
             $('#map').css('cursor', 'pointer');
             var sql_hover = new cartodb.SQL({user: 'mapadmin', format: 'geojson'});
-            var query_hover = "SELECT cartodb_id, the_geom, puid FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))"
+            var query_hover = "SELECT cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom, puid FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))"
             //var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable)";
             sql_hover.execute(query_hover)
               .done(function (geojson) {
-                var hoverfeat = geojson.features;
-                for (var i = 0; i < hoverfeat.length; ++i) {
-                  hovlayer = L.GeoJSON.geometryToLayer(hoverfeat[i].geometry); //come on
-                  hovlayer.SetStyle(hvrStyle);
+                //map.removelayer(hovlayer)
+                var features = geojson.features;
+                for (var i = 0; i < features.length; ++i) {
+                  var f = geojson.features[i];
+                  var key = f.properties.cartodb_id;
+                  var geo = L.GeoJSON.geometryToLayer(features[i].geometry); 
+                  geo.setStyle(hvrStyle);
+                  hovlayer[key] = hovlayer[key] || [];
+                  hovlayer[key].push(geo);
                 }
-                map.addLayer(hovlayer);
+                featureOut();
+                var pol = hovlayer[data.cartodb_id] || [];
+                for(var i = 0; i < pol.length; ++i) {
+                  map.addLayer(pol[i]);
+                  polygonsHighlighted.push(pol[i]);
+                }
                 //$("#hover").css({'display': 'block', 'left':pos.x-75,'bottom':($(window).height()-pos.y+25)});
                 //if (data.total_rows <= 1){
                   //$("#hover").find('p').text(data.total_rows + " Report");
@@ -121,7 +132,11 @@
               })
           });
           projLayer.on('featureOut', function(e, latlng, pos, data){
-            map.removeLayer(hovlayer)
+            var pol = polygonsHighlighted;
+            for(var i = 0; i < pol.length; ++i) {
+              map.removeLayer(pol[i]);
+            }
+            polygonsHighlighted = [];
             $("#hover").css({'display':'none'});
             $('#map').css('cursor', 'auto');
           })
