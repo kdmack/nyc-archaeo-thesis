@@ -100,7 +100,7 @@
               .done(function (geojson) {
                 var hoverfeat = geojson.features;
                 for (var i = 0; i < hoverfeat.length; ++i) {
-                  hovlayer = L.GeoJSON.geometryToLayer(hoverfeat[i].geometry);
+                  hovlayer = L.GeoJSON.geometryToLayer(hoverfeat[i].geometry); //come on
                   hovlayer.SetStyle({'weight':1, 'color':'#ffffff', 'opacity':1, 'fillColor':'#ffffff', 'fillOpacity': 0.2});
                 }
                 map.addLayer(hovlayer);
