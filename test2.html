@@ -105,10 +105,10 @@
           
           // this is still in the onDone event handler of the projects layer
           var projLayer = layer.getSubLayer(0);
+          projLayer.setInteraction(true);
           projLayer.on('featureOver', featureOver);
           projLayer.on('featureOut', featureOut);
-          projLayer.setInteraction(true);
-          
+
           function featureOver(e, pos, latlng, data) {
             featureOut();
             console.log(data.cartodb_id)
