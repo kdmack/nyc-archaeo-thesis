@@ -97,7 +97,7 @@
             sql_hover.execute(query_hover)
               .done(function (geojson) {
                 var hoverfeat = geojson.features;
-                for (i = 0; i < hoverfeat.length; ++1) {
+                for (var i = 0; i < hoverfeat.length; ++1) {
                   console.log(hoverfeat.length)
                 }
                 //$("#hover").css({'display': 'block', 'left':pos.x-75,'bottom':($(window).height()-pos.y+25)});
