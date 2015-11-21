@@ -117,8 +117,14 @@
                   hovlayer[key] = hovlayer[key] || [];
                   hovlayer[key].push(geo);
                 }
-                featureOut();
-                var pol = hovlayer[data.cartodb_id] || [];
+                //featureout
+                var pol = polygonsHighlighted;
+                for(var i = 0; i < pol.length; ++i) {
+                  map.removeLayer(pol[i]);
+                }
+                //highlightfeature
+                polygonsHighlighted = [];
+                pol = hovlayer[data.cartodb_id] || [];
                 for(var i = 0; i < pol.length; ++i) {
                   map.addLayer(pol[i]);
                   polygonsHighlighted.push(pol[i]);
