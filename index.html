@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -17,12 +16,48 @@
       
       #hover {		
         background: #000000;		
-        opacity: 0.6;		
-        /*width: 150px;*/		
+        opacity: 0.7;		
         position: absolute;		
-        padding: 10px;		
-        color: #ffffff;		
-      }		
+        padding: 16px;		
+        color: #ffffff;
+		}		
+	  
+
+	  h2 {
+	   font: 20px Helvetica, Verdana, sans-serif;
+	   margin: 0;
+	   padding: 0;
+	  }
+
+	  ul {
+	   margin: 0;
+	   padding: 0;
+	   list-style-position: inside;
+	   list-style-type: none;
+	  }
+
+	  li {
+	   font: 13px/1.5 Helvetica, Verdana, sans-serif;
+	   /*border-bottom: 1px solid #ccc;*/
+	  }
+
+	/*li:last-child {
+	  border: none;
+	}*/
+	
+	  div.cartodb-popup.v2.custom {
+        background: #666;
+      }
+
+	  div.cartodb-popup.v2.custom:before {
+        border-top: 14px solid #666;
+      }
+
+      div.cartodb-popup.v2.custom h3,
+      div.cartodb-popup.v2.custom p {
+        color: #fff;
+      }
+	
     </style>
     
     <!-- cartocss style for projects symbology, with categories based on level field -->
@@ -47,15 +82,27 @@
   </head>
   
   <body>
+  
     <div id="map"></div>
     
-  <div id="hover">
-      <p>test</p>
-  </div>
+	<div id="hover" ></div>
 
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
     
+	<script type="infowindow/html" id="infowindow_template">
+	  //<div class="cartodb-popup v2 custom">
+	   <a href="#close" class="cartodb-popup-close-button close">x</a>
+	   <div class="cartodb-popup-content-wrapper">
+         <div> class="cartodb-popup-content">
+		   <ul id="infolist">
+		   </ul>
+		 </div>
+	   </div>
+	   <div class="cartodb-popup-tip-container"></div>
+	  </div>
+	</script>
+
     <script>
     
       function main() {
@@ -67,7 +114,6 @@
           maxZoom: 18,
           zoom: 16
         });
-
         //load the white cartodb basemap tile layer
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
@@ -89,27 +135,38 @@
           var projLayer = layer.getSubLayer(0);
           projLayer.setInteraction(true);
           projLayer.setInteractivity("cartodb_id, puid")
+		  
           projLayer.on('featureOver', function(e, latlng, pos, data) {
             //console.log(e, latlng, pos, data);
             $('#map').css('cursor', 'pointer');
             var sql_hover = new cartodb.SQL({user: 'mapadmin'});
-            var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable)";
+            var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable) ORDER BY date_ DESC";
             sql_hover.execute(query_hover)
               .done(function (data) {
-                $("#hover").css({'display': 'block', 'right':pos.x-10,'bottom':pos.y-10});
+                $("#hover").css({'display':'block', 'left':pos.x+10, 'top':pos.y+10});
+				var header = []
                 if (data.total_rows <= 1){
-                  $("#hover").find('p').text(data.total_rows + " Report");
+                  //$("#hover").find('h2').text(data.total_rows + " Report");
+				  header.push("<h2>" + data.total_rows + " Report" + "</h2>");
                 } else {
-                  $("#hover").find('p').text(data.total_rows + " Reports");
+                  header.push("<h2>" + data.total_rows + " Reports" + "</h2>");
+				  //$("#hover").find('h2').text(data.total_rows + " Reports");
                 }
+				var list = ["<ul>"]
+				for (var i = 0; i < data.total_rows; ++i) {
+				  list.push("<li>" + data.rows[i].date_ + ": " + data.rows[i].title + "</li>");
+				}
+				list.push("</ul>");
+				$("#hover").html(header + list);
               })
           });
           projLayer.on('featureOut', function(e, latlng, pos, data){
             $("#hover").css({'display':'none'});
+			$("#hover").html("")
             $('#map').css('cursor', 'auto');
           })
-
-          layer.on('error', function(err) {
+          
+		  layer.on('error', function(err) {
             console.log('error: ' + err);
           });
         }).on('error', function() {
@@ -124,7 +181,6 @@
         topLayer.setZIndex(7);
         
       }
-
       window.onload = main;
     </script>
     
