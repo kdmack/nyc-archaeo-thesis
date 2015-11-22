@@ -166,7 +166,24 @@
             $('#map').css('cursor', 'auto');
           })
           
-		  layer.on('error', function(err) {
+          var infowindow = projLayer.infowindow
+          infowindow.set('template', function(data) {
+            var clickPosLatLng = this.model.get('latlng');
+            $.get('https://mapadmin.cartodb.com/api/v2/sql?q=SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable) ORDER BY date_ DESC', function(data) {
+              var titles = _.pluck(data.rows, 'title');
+              var dates = _.pluck(data.rows, 'date_');
+              var authors = _.pluck(data.rows, 'author');
+              var thumbs = _.pluck(data.rows, 'url_thumb');
+              var repurls = _.pluck(data.rows, 'url_report');
+              $('#mylist').html(dates);
+              //$('#mylist').html(_.map(rows, function(r) { return '<li> data:' + r + '</li>' }).join('\n'));
+            });
+            
+            return $('#infowindow_template').html();
+          });
+          
+          
+	  layer.on('error', function(err) {
             console.log('error: ' + err);
           });
         }).on('error', function() {
