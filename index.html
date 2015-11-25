@@ -1,264 +1,265 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>NYC Archaeology | Master's Thesis</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+
+<head>
+  <title>NYC Archaeology | Master's Thesis</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+
+  <!-- Map takes up full browser window -->
+  <style>
+    html,
+    body,
+    #map {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
     
-    <!-- Map takes up full browser window -->
-    <style>
-      html, body, #map {
-        height: 100%;
-        padding: 0;
-        margin: 0;
-      }
-			
-      #hover {		
-        width: 390px;
-				background: #000000;		
-        opacity: 0.7;		
-        position: absolute;		
-        padding: 16px;		
-        color: #ffffff;
-				z-index: 3000;
-				display: block;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-		}		
-	  
-
-	  h2 {
-	   font: 20px Helvetica, Verdana, sans-serif;
-	   margin: 0;
-	   padding: 0;
-	  }
-
-	  ul {
-	   margin: 0;
-	   padding: 0;
-	   list-style-position: inside;
-	   list-style-type: none;
-	  }
-
-	  li {
-	   font: 13px Helvetica, Verdana, sans-serif;
-	  }
-
-	/*li:last-child {
+    #hover {
+      width: 390px;
+      background: #000000;
+      opacity: 0.7;
+      position: absolute;
+      padding: 16px;
+      color: #ffffff;
+      z-index: 3000;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    h2 {
+      font: 20px Helvetica, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-position: inside;
+      list-style-type: none;
+    }
+    
+    li {
+      font: 13px Helvetica, Verdana, sans-serif;
+    }
+    /*li:last-child {
 	  border: none;
 	}*/
-	
-	  
-	#dashboard {
-	  background: #fff;
-	  border-left: 1px solid #000;    
-	  height: 100%;
-	  font-family: 'Open Sans', sans-serif;
-	  overflow-y: scroll;
-	  padding: 10px;
-	  position: absolute;
-	  right: 0;
-	  text-align: left;
-	  top: 0;
-	  z-index: 2001;
-	  opacity: 0.90;
-	  width: 500px;
-	}
-	
-    </style>
     
-    <!-- cartocss style for projects symbology, with categories based on level field -->
-    <style type="cartocss/text" id="projbylevel">
-      /** category visualization */
-      #projects {
-         polygon-opacity: 0.6;
-         line-color: #FFF;
-         line-width: 0.5;
-         line-opacity: 1;
-      }
-      #projects[level="doc"] {
-         polygon-fill: #ffff75;
-      }
-      #projects[level="exc"] {
-         polygon-fill: #ff7575;
-      }
-    </style>
+    #dashboard {
+      background: #fff;
+      border-left: 1px solid #000;
+      height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      overflow-y: scroll;
+      padding: 10px;
+      position: absolute;
+      right: 0;
+      text-align: left;
+      top: 0;
+      z-index: 2001;
+      opacity: 0.90;
+      width: 500px;
+    }
+  </style>
+
+  <!-- cartocss style for projects symbology, with categories based on level field -->
+  <style type="cartocss/text" id="projbylevel">
+    /** category visualization */ #projects { polygon-opacity: 0.6; line-color: #FFF; line-width: 0.5; line-opacity: 1; } #projects[level="doc"] { polygon-fill: #ffff75; } #projects[level="exc"] { polygon-fill: #ff7575; }
+  </style>
 
 
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-  </head>
-  
-  <body>
-  
-    <div id="map"></div>
-    
-	<div id="hover"></div>
-	
-	<div id="dashboard">
-      <div id="info"></div>
-	</div>
-	
-	<div id="infolist"></div>
-	
-	<div class='cartodb-legend category'>	
-	<ul>
-	<li>
-		<div class="bullet" style="background: #ff7575"></div> Excavation
-	</li>
-	<li>
-		<div class="bullet" style="background: #ffff75"></div> Documentary study
-	</li>
-</ul>
-</div>
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+</head>
 
-    <!-- include cartodb.js library -->
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-    
-    <script type="infowindow/html" id="infowindow_template">
-      <div class="cartodb-popup">
-        <a href="#close" class="cartodb-popup-close-button close">x</a>
+<body>
 
-         <div class="cartodb-popup-content-wrapper">
-           <div class="cartodb-popup-content">
-             <ul id="mylist">
-             </ul>
-           </div>
-         </div>
-         <div class="cartodb-popup-tip-container"></div>
+  <div id="map"></div>
+
+  <div id="hover"></div>
+
+  <div id="dashboard">
+    <div id="info"></div>
+  </div>
+
+  <div id="infolist"></div>
+
+  <div class='cartodb-legend category'>
+    <ul>
+      <li>
+        <div class="bullet" style="background: #ff7575"></div> Excavation
+      </li>
+      <li>
+        <div class="bullet" style="background: #ffff75"></div> Documentary study
+      </li>
+    </ul>
+  </div>
+
+  <!-- include cartodb.js library -->
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+
+  <script type="infowindow/html" id="infowindow_template">
+    <div class="cartodb-popup">
+      <a href="#close" class="cartodb-popup-close-button close">x</a>
+
+      <div class="cartodb-popup-content-wrapper">
+        <div class="cartodb-popup-content">
+          <ul id="mylist">
+          </ul>
+        </div>
       </div>
-    </script>
+      <div class="cartodb-popup-tip-container"></div>
+    </div>
+  </script>
 
 
-    <script>
-    
-      function main() {
-        
-        //create the empty leaflet map object and set some options including location and zoom level
-        var map = new L.Map('map', {
-          scrollWheelZoom: true,
-          center: [40.711738, -74.007872],
-          maxZoom: 18,
-          zoom: 16
+  <script>
+    function main() {
+
+      //create the empty leaflet map object and set some options including location and zoom level
+      var map = new L.Map('map', {
+        scrollWheelZoom: true,
+        center: [40.711738, -74.007872],
+        maxZoom: 18,
+        zoom: 16
+      });
+
+
+      var bPanelOpen = false;
+      $('#dashboard').hide(1000);
+
+      //load the white cartodb basemap tile layer
+      L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+      }).addTo(map);
+
+      //create and add the cartodb data layer on the fly
+      cartodb.createLayer(map, {
+        user_name: 'mapadmin',
+        type: 'cartodb',
+        sublayers: [{
+          sql: 'SELECT * FROM projects ORDER BY level',
+          cartocss: $("#projbylevel").text()
+        }]
+      }).addTo(map)
+
+
+      // 'on done' is triggered once layer is created-- passes back layer object
+      .on('done', function(layer) {
+        //triggers a function to set interactivity on the projects layer
+        var projLayer = layer.getSubLayer(0);
+        projLayer.setInteraction(true);
+        projLayer.setInteractivity("cartodb_id, puid")
+
+        projLayer.on('featureOver', function(e, latlng, pos, data) {
+          //console.log(e, latlng, pos, data);
+          $('#map').css('cursor', 'pointer');
+          var sql_hover = new cartodb.SQL({
+            user: 'mapadmin'
+          });
+          var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable) ORDER BY date_ DESC";
+          sql_hover.execute(query_hover)
+            .done(function(data) {
+              $("#hover").css({
+                'display': 'block',
+                'left': pos.x + 10,
+                'top': pos.y + 10
+              });
+              var header = []
+              if (data.total_rows <= 1) {
+                header.push("<h2>" + data.total_rows + " Report" + "</h2>");
+              } else {
+                header.push("<h2>" + data.total_rows + " Reports" + "</h2>");
+              }
+              var list = ["<ul>"]
+              for (var i = 0; i < data.total_rows; ++i) {
+                list.push("<li>" + data.rows[i].date_ + ": " + data.rows[i].title.substring(0, 50) + "...</li>");
+              }
+              list.push("</ul>");
+              $("#hover").html(header + list);
+            })
         });
-		
-		
-				var bPanelOpen = false;
-				$('#dashboard').hide(1000);
-		
-        //load the white cartodb basemap tile layer
-        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-        }).addTo(map);
-        
-        //create and add the cartodb data layer on the fly
-        cartodb.createLayer(map, {
-          user_name: 'mapadmin',
-          type: 'cartodb',
-          sublayers: [{
-            sql: 'SELECT * FROM projects ORDER BY level',
-            cartocss: $("#projbylevel").text()
-          }]
-        }).addTo(map)
-		
-        
-        // 'on done' is triggered once layer is created-- passes back layer object
-        .on('done', function(layer) {
-          //triggers a function to set interactivity on the projects layer
-          var projLayer = layer.getSubLayer(0);
-          projLayer.setInteraction(true);
-          projLayer.setInteractivity("cartodb_id, puid")
-		  
-          projLayer.on('featureOver', function(e, latlng, pos, data) {
-            //console.log(e, latlng, pos, data);
-            $('#map').css('cursor', 'pointer');
-            var sql_hover = new cartodb.SQL({user: 'mapadmin'});
-            var query_hover = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable) ORDER BY date_ DESC";
-            sql_hover.execute(query_hover)
-              .done(function (data) {
-                $("#hover").css({'display':'block', 'left':pos.x+10, 'top':pos.y+10});
-				var header = []
-                if (data.total_rows <= 1){
-				  header.push("<h2>" + data.total_rows + " Report" + "</h2>");
-                } else {
-                  header.push("<h2>" + data.total_rows + " Reports" + "</h2>");
-                }
-				var list = ["<ul>"]
-				for (var i = 0; i < data.total_rows; ++i) {
-				  list.push("<li>" + data.rows[i].date_ + ": " + data.rows[i].title.substring(0, 50) + "...</li>");
-				}
-				list.push("</ul>");
-				$("#hover").html(header + list);
-              })
-          });
-		  
-          projLayer.on('featureOut', function(e, latlng, pos, data){
-            $("#hover").css({'display':'none'});
-			$("#hover").html("")
-            $('#map').css('cursor', 'auto');
-          })
-           
-          //cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id'])
-		  
-		  projLayer.on('featureClick', function(e, latlng, pos, data) {
-            $('#map').css('cursor', 'wait');
-            $("#hover").css({'display':'none'});
-			$("#hover").html("")
-			if (!bPanelOpen) {
-		      $('#dashboard').show("fast");
-			  bPanelOpen = true;
-		    }
-            var sql_click = new cartodb.SQL({user: 'mapadmin'});
-            var query_click = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable) ORDER BY date_ DESC";
-            sql_click.execute(query_click)
-              .done(function (data) {
-				var dashheader = []
-                if (data.total_rows <= 1){
-				  dashheader.push("<h2>" + data.total_rows + " Report" + "</h2>");
-                } else {
-                  dashheader.push("<h2>" + data.total_rows + " Reports" + "</h2><h4>Click report cover to open full report</h4><h4> Click empty area of map to close this panel.</h4>");
-                }
-				var dashlist = ["<ul>"]
-				for (var i = 0; i < data.total_rows; ++i) {
-				  dashlist.push("<li><a href=" + data.rows[i].url_report + " target=_newtab><img width=100% src=" + data.rows[i].url_thumb + "></a></li>");
-				}
-				dashlist.push("</ul>");
-				$("#info").html(dashheader + dashlist);
-				$('#map').css('cursor', 'pointer');
-              })
-          });
 
-		  layer.on('error', function(err) {
-            console.log('error: ' + err);
+        projLayer.on('featureOut', function(e, latlng, pos, data) {
+          $("#hover").css({
+            'display': 'none'
           });
-        }).on('error', function() { //error handler for createlayer.ondone
-          console.log("some error occurred");
+          $("#hover").html("")
+          $('#map').css('cursor', 'auto');
         })
-        
-        // ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
-        var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
-        var topLayer = new L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png')
-        .addTo(map);
-        topPane.appendChild(topLayer.getContainer());
-        topLayer.setZIndex(7);
-		
-				$('#map').click(function() {
-					if (bPanelOpen) {
-						$('#dashboard').hide("fast");
-					bPanelOpen = false;
-					}
-				})
-				
-				$('#dashboard').mouseenter(function() {
-					$("#hover").css({'display':'none'});
-				})
 
-        
-      }
-	  
-      window.onload = main;
-    </script>
-    
-  </body>
+        //cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id'])
+
+        projLayer.on('featureClick', function(e, latlng, pos, data) {
+          $('#map').css('cursor', 'wait');
+          $("#hover").css({
+            'display': 'none'
+          });
+          $("#hover").html("")
+          if (!bPanelOpen) {
+            $('#dashboard').show("fast");
+            bPanelOpen = true;
+          }
+          var sql_click = new cartodb.SQL({
+            user: 'mapadmin'
+          });
+          var query_click = "SELECT * FROM reports WHERE project_unique_id IN (SELECT DISTINCT puid FROM (SELECT * FROM projects WHERE ST_Intersects(projects.the_geom, ST_SetSRID(ST_MakePoint(" + latlng[1] + ", " + latlng[0] + "), 4326))) AS projTable) ORDER BY date_ DESC";
+          sql_click.execute(query_click)
+            .done(function(data) {
+              var dashheader = []
+              if (data.total_rows <= 1) {
+                dashheader.push("<h2>" + data.total_rows + " Report" + "</h2>");
+              } else {
+                dashheader.push("<h2>" + data.total_rows + " Reports" + "</h2><h4>Click report cover to open full report</h4><h4> Click empty area of map to close this panel.</h4>");
+              }
+              var dashlist = ["<ul>"]
+              for (var i = 0; i < data.total_rows; ++i) {
+                dashlist.push("<li><a href=" + data.rows[i].url_report + " target=_newtab><img width=100% src=" + data.rows[i].url_thumb + "></a></li>");
+              }
+              dashlist.push("</ul>");
+              $("#info").html(dashheader + dashlist);
+              $('#map').css('cursor', 'pointer');
+            })
+        });
+
+        layer.on('error', function(err) {
+          console.log('error: ' + err);
+        });
+      }).on('error', function() { //error handler for createlayer.ondone
+        console.log("some error occurred");
+      })
+
+      // ADD THE REFERENCE OVERLAY (THE TOP OF THE SANDWICH) HERE:
+      var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+      var topLayer = new L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png')
+        .addTo(map);
+      topPane.appendChild(topLayer.getContainer());
+      topLayer.setZIndex(7);
+
+      $('#map').click(function() {
+        if (bPanelOpen) {
+          $('#dashboard').hide("fast");
+          bPanelOpen = false;
+        }
+      })
+
+      $('#dashboard').mouseenter(function() {
+        $("#hover").css({
+          'display': 'none'
+        });
+      })
+
+
+    }
+
+    window.onload = main;
+  </script>
+
+</body>
+
 </html>
