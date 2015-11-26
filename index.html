@@ -47,11 +47,9 @@
     li {
       font: 13px Helvetica, Verdana, sans-serif;
     }
-    /*li:last-child {
-	  border: none;
-	}*/
+
     
-    #dashboard {
+    #sidepanel {
       background: #fff;
       border-left: 1px solid #000;
       height: 100%;
@@ -83,7 +81,7 @@
 
   <div id="hover"></div>
 
-  <div id="dashboard">
+  <div id="sidepanel">
     <div id="info"></div>
   </div>
 
@@ -131,7 +129,7 @@
 
 
       var bPanelOpen = false;
-      $('#dashboard').hide(1000);
+      $('#sidepanel').hide(1000);
 
       //load the white cartodb basemap tile layer
       L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
@@ -193,8 +191,6 @@
           $('#map').css('cursor', 'auto');
         })
 
-        //cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id'])
-
         projLayer.on('featureClick', function(e, latlng, pos, data) {
           $('#map').css('cursor', 'wait');
           $("#hover").css({
@@ -202,7 +198,7 @@
           });
           $("#hover").html("")
           if (!bPanelOpen) {
-            $('#dashboard').show("fast");
+            $('#sidepanel').show("fast");
             bPanelOpen = true;
           }
           var sql_click = new cartodb.SQL({
@@ -243,12 +239,12 @@
 
       $('#map').click(function() {
         if (bPanelOpen) {
-          $('#dashboard').hide("fast");
+          $('#sidepanel').hide("fast");
           bPanelOpen = false;
         }
       })
 
-      $('#dashboard').mouseenter(function() {
+      $('#sidepanel').mouseenter(function() {
         $("#hover").css({
           'display': 'none'
         });
